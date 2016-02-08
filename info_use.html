@@ -1,0 +1,335 @@
+<HTML><!-- #BeginTemplate "/templates/software_readme.dwt" -->
+<head>
+<!-- #BeginEditable "doctitle" --> 
+<title>顧客管理データベース</title>
+<!-- #EndEditable --> 
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<link rev="made" href="mailto:kuze_work@hotmail.com">
+<link rel="stylesheet" href="http://kuze.tsukaeru.jp/imgbox/software_format.css" type="text/css">
+</head>
+<body bgcolor="#FFFFFF" text="#000000" link="#0066FF" vlink="#0066FF" alink="#FF0000" topmargin="0">
+<a name="top"></a> 
+<div align=center> <br>
+  <table width="740" border="0">
+	<tr> 
+	  <td> 
+		<h1><!-- #BeginEditable "title_icon" --><a href="http://kuze.tsukaeru.jp/tools/k_database/" class=next><img src="icon_k_database.gif" width="64" height="64" alt="(icon)" border="0"></a><!-- #EndEditable -->　<!-- #BeginEditable "title" --><!-- #BeginLibraryItem "/Library/title_kokyaku_tools.lbi" --><a href="http://kuze.tsukaeu.jp/tools/k_database/index.shtml" class=next>顧客管理データベース 
+ver 0.902D</a><!-- #EndLibraryItem --><!-- #EndEditable --></h1>
+		<div align=right>サポートURL: <!-- #BeginEditable "to_supportsite" --><a href="http://kuze.tsukaeru.jp/tools/k_database/" class=next>http://kuze.tsukaeru.jp/tools/k_database/</a><!-- #EndEditable --></div>
+	  </td>
+	</tr>
+  </table>
+  <br>
+  <table width="740" border="0">
+	<tr> 
+	  <td align="right"> <strong><font color="red">最終更新</font></strong>　 <!-- #BeginEditable "final update" --><!-- #BeginLibraryItem "/Library/update_kokyaku_tools.lbi" --><font color="red"><strong>2005年3月6日</strong></font>　顧客管理データベースver 0.902D の公開<br>
+ <font color="black" size=-1>2004年1月25日　顧客管理データベースver 0.902C の公開</font><br>
+<!-- #EndLibraryItem --><!-- #EndEditable --><br>
+		<font color="#000000" size=-1><!-- #BeginEditable "final update2" --><!-- #EndEditable --></font> <br>
+	  </td>
+	</tr>
+	<tr> 
+	  <td> 
+		<div align="right"><font size=-1> </font></div>
+	  </td>
+	</tr>
+  </table>
+  <img src="/imgbox/blackline.png" width="740" height="1" alt=" "> 
+  <table width="540">
+	<tr> 
+	  <td align="center" valign="middle"><!-- #BeginEditable "second menu" --> 
+        [ <a href="readme.html#characteristic" class=next>機能詳細</a> / <a href="readme.html#bugs" class=next>バグ情報</a> 
+        / <a href="readme.html#update" class=next>更新履歴</a> ] [ <a href="info_use.html#use" class=next>使い方</a> 
+        ] [ <a href="info_program.html#program" class=next>プログラム解説</a> ]<br>
+        [ <a href="info_supports.html#supports" class=next>ユーザーサポート</a> / <a href="info_supports.html#copyright" class=next>著作権・使用責任等について 
+        (改造のススメ)</a> ]<br>
+        [ <a href="info_supports.html#service" class=next>PR) 法人向け設置サービスについて (PR</a> 
+        ]<br>
+        <!-- #EndEditable --></td>
+	</tr>
+	<tr> 
+	  <td align="right" valign="middle"><!-- #BeginEditable "other file link" --><!-- #EndEditable --></td>
+	</tr>
+  </table>
+  <img src="/imgbox/blackline.png" width="740" height="1" alt=" "> <br>
+  <br>
+  <SCRIPT language="JavaScript">
+	<!--
+	  document.write("<table><tr><td width=740 bgcolor=#FFFFCC align=center valign=middle>");
+	// -->
+  </script>
+  <script type="text/javascript" src="/tools/cm/ad_changer.cgi"></script>
+  <SCRIPT language="JavaScript">
+	<!--
+	  document.write("</td></tr></table>");
+	// -->
+  </script>
+  <br>
+  <table width="740" border="0">
+	<tr> 
+	  <td> <br>
+		<!-- #BeginEditable "naiyou" --> <a name="use"></a> 
+        <h2>使い方</h2>
+        <div align=right>[ <a href="#install" class=next>インストール</a> / <a href="#play" class=next>実際の操作</a> 
+          / <a href="#uninstall" class=next>アンインストール</a> ]</div>
+        <br>
+        <a name="install"></a> 
+        <h3>インストール</h3>
+        <ol>
+          <li>ダウンロードしたファイルを適当なところに解凍する。</li>
+          <li><font color=red><b>セキュリティ対策) </b></font>起動ファイル<b>『index.cgi』</b>、設定ファイル<b> 
+            『config.dat』</b>、 顧客情報ファイル<b>『kokyaku.csv』</b>、対応履歴ファイル<b>『taiou.csv』</b>、第1世代バックアップ顧客情報ファイル名<b>『kokyaku.bak』</b>、第1世代バックアップ対応履歴ファイル名<b>『taiou.bak』</b>、一部操作履歴ファイル<b>『sousa_rireki.csv』</b>のファイル名を適当に変え、<b>『index.cgi』</b> 
+            の最初の方に記述されている(改行位置などは適当に読み替えて下さい)<br>
+            <br>
+            <font color="green" size="-1"><i> local($file_main)="index.cgi"; #このメインシステムファイル名<br>
+            <br>
+            local($file_config)="config.dat";　#管理者用設定ファイル名<br>
+            <br>
+            local($file_kokyaku)="kokyaku.csv";　#顧客情報ファイル名<br>
+            local($file_taiou)="taiou.csv";　#対応履歴ファイル名<br>
+            local($file_kokyaku_bak)="kokyaku.bak";　 #第1世代バックアップ顧客情報ファイル名<br>
+            local($file_taiou_bak)="taiou.bak";　#第1世代バックアップ対応履歴ファイル名<br>
+            local($file_sousa_rireki)="sousa_rireki.csv"; #一部操作履歴ファイル<br>
+            </i></font> <br>
+            なども、ファイル名に合わせて変更してください。<br>
+            また、管理者用設定ファイル<b>『config.dat』</b>の、上から4行目ぐらいに書かれている初期パスワードを変更してください。<br>
+            そのままでも使えますが、<b>パスワードが覗かれ第３者が勝手に管理者になりすましたり、直接データファイルを見られる危険性がグッと上がります</b>。 
+          </li>
+          <li><b> 『index.cgi』</b>から、ファイルの上部にある(改行位置は適当に読み替えて下さい)<br>
+            <br>
+            <i><font color="green" size="-1"> local($mailer_demolock)=1; #メール:送信ボタンを押したら本当に送信するの？<br>
+            　#0…Yes 1…No<br>
+            local($mailer_pass)="sendmane.exe"; #メール:semdmailもしくは、その互換までのパス<br>
+            local($mailer_ownaddress)="kuze_work3\@hotmail.com";<br>
+            　#メール:管理者のアドレス(ココは必ず変更してください！)<br>
+            </font></i><br>
+            の部分を、自分の環境に合わせて修正して下さい。<br>
+            また、ご使用になる sendmail (またはその互換ソフト) の設定も修正して下さい。</li>
+          <li>顧客管理データベースのプログラムをあなたの用途に合わせて修正する。<br>
+            なお<a href="info_program.html#program" class=next>プログラム解説</a>に<br>
+            <a href="info_program.html#hensuu" class=next>『主な変数名とその内容』</a><br>
+            <a href="info_program.html#form" class=next>『フォーム出力データ』</a><br>
+            <a href="info_program.html#kouzou" class=next>『プログラム全体の簡単な構造図』</a><br>
+            <a href="info_program.html#file" class=next>『各ファイルについて一言解説』</a><br>
+            を書いてありますので、よろしければ参考にして下さい。<br>
+            データベース以外の、周りの表示部分のカスタマイズは<b>『output_sub.pl』</b>の最後部分で修正できます。</li>
+          <li>顧客情報ファイル<b>『kokyaku.csv』</b> ・対応履歴ファイル<b>『taiou.csv』 </b>・一部操作履歴ファイル<b>『sousa_rireki.csv』</b>の中身を空にしてください。ファイル添付の内容はサンプルです。<br>
+            バックアップファイル <b>『kokyaku.bak』『taiou.bak』</b> はそのままでも構いませんが、データ更新時に消されます。ご了承ください。</li>
+          <li>ローカルサーバーで動作チェックをする。</li>
+          <li>webサーバーにあげる。</li>
+          <li>パーミッション（ファイル属性）を変える。保存先のファイルなどにも忘れずに！サーバーによって多少の差異がありますが違うかもしれません<a href="http://ad1.tsukaeru.net/clickthru?id=81" target="_blank" class=next>使えるねっと( 
+            http://www.tsukaeru.net/ )さんの場合</a>は</li>
+          <table border="1">
+            <tr> 
+              <td align="left" valign="top">index.cgi<br>
+                dummy.cgi<br>
+                downdata.cgi<br>
+              </td>
+              <td align="left" valign="middle">755 </td>
+            </tr>
+            <tr> 
+              <td> kokyaku.csv<br>
+                taiou.csv<br>
+                kokyaku.bak<br>
+                taiou.bak<br>
+                config.dat<br>
+              </td>
+              <td align="left" valign="middle"> 655</td>
+            </tr>
+            <tr> 
+              <td align="left" valign="top">その他</td>
+              <td align="left" valign="middle">644</td>
+            </tr>
+          </table>
+          でいけます。<br>
+          詳しくは各サーバー会社に問い合わせて下さい。 
+          <li>動作チェックしてみて動作がおかしかったら 2. からもう一度見直す。</li>
+        </ol>
+        <br>
+        <a name="play"></a> 
+        <h3>実際の操作</h3>
+        <a name="start_up"></a> 
+        <h4>起動</h4>
+        <ol>
+          <li>このプログラムは <b>『index.cgi』</b> を呼び出す事で起動します。</li>
+          <li>起動時では最後に追加・編集された履歴データを順に表示する<br>
+            <img src="saishin_jyun.gif" width="199" height="18" alt="最新順">が表示されます。</li>
+        </ol>
+        <a name="new_searched"></a> 
+        <h4>最新順 及び 検索結果</h4>
+        <ol>
+          <li> 
+            <input type="submit" value="MapFan リンク">
+            があるものに付いてはその顧客データの住所に対応した地図を、MapFan様のおかげで見ることができます。</li>
+          <li> 顧客の詳細を知りたい＆修正したい＆削除したい<font size="-2">（管理者のみ）</font>場合は顧客のデータのところで 
+            <input type="submit" value="詳細情報表示">
+            を押してください。</li>
+          <li>該当・登録されている会社が多い場合 <u><font color="blue">次(前)のページへ</font></u> をクリックすることで、他の会社を見ることができます。</li>
+          <li>内容を絞り込みたい場合、検索機能を使うという手があります。<br>
+            顧客検索・履歴検索のところへキーワードを入力し 
+            <input type="submit" value="検索">
+            を押す事で素早く対象の顧客データを発見できます。<br>
+            なお顧客&amp;履歴の同時検索やAnd・Or検索などには未対応です。<br>
+            <br>
+            <b>顧客検索</b>…登録されている各社の顧客データから、入力したキーワードと一致するものを探し出し、会社をリストアップします。<br>
+            <b>履歴検索</b>…対応履歴から、入力したキーワードと一致するものを探し出し、会社詳細情報へのリンクを付け足してリストアップします。<br>
+          </li>
+        </ol>
+        <a name="edit_company"></a> 
+        <h4>(会社詳細情報の)修正・追加・削除</h4>
+        <ol>
+          <li><img src="syousai.gif" width="199" height="18"><font size="-2">（後ろ２つは管理者のみ）</font>画面では、まず選択した顧客データとその顧客の対応履歴が表示されますので直したい所を入力してください。<br>
+            入力値は 
+            <input type="submit" value="この内容で登録する">
+            もしくは 
+            <input type="submit" value="履歴を登録する">
+            を押すことで有効になります。</li>
+          <li>テキスト複数行入力フィールドでは、以下のタグのみが使用できます。<br>
+            <br>
+            <div align=center> 
+              <table>
+                <tr> 
+                  <td align="left" valign="middle" nowrap bgcolor=#FFdddd> <font color="red"><b>&lt;font&gt;</b></font> 
+                    … フォント指定<br>
+                    <font color="red"><b>&lt;strong&gt;</b></font> … 太字その１<br>
+                    <font color="red"><b>&lt;b&gt;</b></font> … 太字その２<br>
+                    <font color="red"><b>&lt;em&gt;</b></font> … 傾きその１<br>
+                    <font color="red"><b>&lt;i&gt;</b></font> … 傾きその２<br>
+                    <font color="red"><b>&lt;u&gt;</b></font> … アンダーライン<br>
+                    <font color="red"><b>&lt;del&gt;</b></font> … 字消しその１＋α<br>
+                  </td>
+                  <td align="left" valign="middle" nowrap bgcolor=#FFdddd> <font color="red"><b>&lt;s&gt;</b></font> 
+                    … 字消しその２<br>
+                    <font color="red"><b>&lt;strike&gt;</b></font> … 字消しその３<br>
+                    <font color="red"><b>&lt;ruby&gt;</b></font> … ルビ関連その１<br>
+                    <font color="red"><b>&lt;rt&gt;</b></font> … ルビ関連その２<br>
+                    <font color="red"><b>&lt;rp&gt;</b></font> … ルビ関連その３<br>
+                    <font color="red"><b>&lt;div&gt;</b></font> … 揃え方指定<br>
+                    <font color="red"><b>&lt;center&gt;</b></font> … 中揃え<br>
+                    <font color="red"><b>&lt;a&gt;</b></font> … アンカー(リンク)<br>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <br>
+            なおこれら以外のタグを書き込んだ場合、無視して、そのまんま表示してします。</li>
+        </ol>
+        <a name="master"></a> 
+        <h4>管理者モード</h4>
+        <ol>
+          <li>管理者は上部にあるテキストフィールドにパスワードを入力する事で管理者モードに移行する事ができ、<img src="kanrisya.gif" width="158" height="18" alt="管理者専用設定">が新たに選択できるようになります。<br>
+            管理者モードでは、通常時の機能に加え、以下の機能が利用できます。</li>
+          <ol>
+            <li>一部操作履歴を見る(何件まで表示するかも変更可能)。</li>
+            <li>顧客への一斉メール送信を行う。</li>
+            <li>顧客情報・対応履歴のダウンロードやExcel<sup><font color="red">※</font></sup>による一覧表示を見る。<br>
+              <font color="red"><sup>※</sup>要 Excel と Internet Explorer</font></li>
+            <li>管理者コメントを変更できる(起動時など、『最新順』1ページ目表示時にのみ出力されます)。</li>
+            <li>起動時などに表示される『最新順』表示機能で、表示される件数を変更できる。</li>
+            <li>管理者用パスワード変更。</li>
+            <li>顧客データの追加と削除。</li>
+            <li>対応履歴・一部操作履歴を最大何件まで保存するか。</li>
+          </ol>
+          なお 
+          <input type="submit" value="管理者モード終了">
+          をクリックする事で管理者モードを解除する事ができます。 
+        </ol>
+        <a name="send_mails"></a> 
+        <h4>管理者モード / 一斉メール送信</h4>
+        <ol>
+          <li><b>初回のみ必要です)</b><br>
+            <a href="#install" class=next>インストールの所を参考に『index.cgi』の、ファイル上部を修正して下さい</a>。</li>
+          <li>管理者は 
+            <input type="submit" value="新規一斉メール送信をする">
+            をクリックする事で、一斉メール送信機能へ移行できます。 </li>
+          <li>一斉メール送信機能では、まず<img src="saishin_jyun.gif" width="199" height="18" alt="最新順">画面が表示されます。 
+          </li>
+          <li><b>送信先の指定)</b><br>
+            ここから、１つづつ手作業、もしくは顧客・履歴検索機能や 
+            <input type="submit" value="全登録顧客を○">
+            などを使い、送信したい会社を 
+            <input type="submit" value="×">
+            から 
+            <input type="submit" value="○">
+            へ選択します。<br>
+            選択し終えたら 
+            <input type="submit" value="内容入力へ移る">
+            をクリックします。 </li>
+          <li><b>メール内容入力)</b><br>
+            次に送信先を確認した後、メールのタイトルおよび本文を入力します。 </li>
+          <li><b>送信内容最終確認)</b><br>
+            最後に送信内容を確認して、 
+            <input type="submit" value="この内容で本当に送信する">
+            をクリックすると、メール送信が開始されます。<br>
+            <font color="red">※『この内容で本当に送信する』をクリック後は、メール送信を取り消す事ができません。ご注意下さい。</font> 
+          </li>
+        </ol>
+        <br>
+        <a name="uninstall"></a> 
+        <h3>アンインストール方法</h3>
+        <ol>
+          <li>『顧客管理データベース』を本体部分および関連ファイルを削除する。</li>
+          <li>『顧客管理データベース』へのリンクなどもありましたら削除してください。</li>
+        </ol>
+        <!-- #EndEditable --> </td>
+	</tr>
+  </table>
+  <br>
+  <table>
+    <tr> 
+	  <td width="740" align=left valign=middle><!-- #BeginEditable "third_links" -->
+        <div align=center> 
+          <table width="540">
+            <tr> 
+              <td align="center" valign="middle"> [ <a href="readme.html#characteristic" class=next>機能詳細</a> 
+                / <a href="readme.html#bugs" class=next>バグ情報</a> / <a href="readme.html#update" class=next>更新履歴</a> 
+                ] [ <a href="info_use.html#use" class=next>使い方</a> ] [ <a href="info_program.html#program" class=next>プログラム解説</a> 
+                ]<br>
+                [ <a href="info_supports.html#supports" class=next>ユーザーサポート</a> 
+                / <a href="info_supports.html#copyright" class=next>著作権・使用責任等について 
+                (改造のススメ)</a> ]<br>
+                [ <a href="info_supports.html#service" class=next>PR) 法人向け設置サービスについて (PR</a> ]<br>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <!-- #EndEditable --></td>
+	</tr>
+  </table>
+  <br>
+  <SCRIPT language="JavaScript">
+	<!--
+	  document.write("<table><tr><td width=740 bgcolor=#FFFFCC align=center valign=middle>");
+	// -->
+  </script>
+  <script type="text/javascript" src="/tools/cm/ad_changer.cgi"></script>
+  <SCRIPT language="JavaScript">
+	<!--
+	  document.write("</td></tr></table>");
+	// -->
+  </script>
+  <br>
+  <table>
+	<tr> 
+	  <td width="740" align=right valign=middle> [ <a href="#top" class=next>▲ 
+		ページの頭まで戻る ▲</a> ] </td>
+	</tr>
+  </table>
+  <br>
+  <br>
+  <table>
+	<tr> 
+	  <td width="740" align="right" valign="top"> 
+		<hr>
+		&copy; Copyright <a href="mailto:kuze_work@hotmail.com">Hiroshi Kuze</a> 
+		<!-- #BeginEditable "copyright_year" -->2002-2004<!-- #EndEditable --> 
+		( <a href="mailto:kuze_work@hotmail.com">kuze_work@hotmail.com</a> ).<br>
+		サポートURL: <!-- #BeginEditable "to_supportsite2" --><a href="http://kuze.tsukaeru.jp/tools/k_database/">http://kuze.tsukaeru.jp/tools/k_database/</a><!-- #EndEditable --><br>
+		なお、親サーバーがトラブル時には <a href="http://testrion.hp.infoseek.co.jp/">http://testrion.hp.infoseek.co.jp/</a> 
+		にて対応します。<br>
+	  </td>
+	</tr>
+  </table>
+</div>
+</body>
+<!-- #EndTemplate --></html>

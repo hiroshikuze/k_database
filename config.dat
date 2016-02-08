@@ -1,0 +1,17 @@
+顧客管理データベース_version0.902AbyHiroshiKuze. - config_file
+//パスワード
+momoko
+//最近入力された件数を何件づつ表示するか
+5
+//管理者からのお知らせ
+もし動作がおかしい所がありましたら<br><br><a href="dummy.cgi?move_url=http://kuze.tsukaeru.jp/tools/bbs/index.shtml">http://kuze.tsukaeru.jp/tools/bbs/index.shtml</a><br>か<br><a href="mailto:kuze_work@hotmail.com">kuze_work@hotmail.com</a><br><br>にまでお暇でしたらご連絡してくださると助かります。<br><br><br>なおタグの使用には制限があります。<br>利用できるタグは以下の物のみです。<br><br><center><font color=red><b> b , i , u , del , s , div , center , font </b></font></center>
+//一部操作履歴の表示件数
+2
+//一部操作履歴を何件まで残すか
+10
+//顧客データの履歴を何件まで残すか
+10000
+//一斉メール送信履歴の最初に表示する件数
+2
+//一部操作履歴と一斉メール送信履歴で以下省略する改行の数
+4

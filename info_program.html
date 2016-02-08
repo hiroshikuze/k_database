@@ -1,0 +1,1008 @@
+<HTML><!-- #BeginTemplate "/templates/software_readme.dwt" -->
+<head>
+<!-- #BeginEditable "doctitle" --> 
+<title>顧客管理データベース</title>
+<!-- #EndEditable --> 
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<link rev="made" href="mailto:kuze_work@hotmail.com">
+<link rel="stylesheet" href="http://kuze.tsukaeru.jp/imgbox/software_format.css" type="text/css">
+</head>
+<body bgcolor="#FFFFFF" text="#000000" link="#0066FF" vlink="#0066FF" alink="#FF0000" topmargin="0">
+<a name="top"></a> 
+<div align=center> <br>
+  <table width="740" border="0">
+	<tr> 
+	  <td> 
+		<h1><!-- #BeginEditable "title_icon" --><a href="http://kuze.tsukaeru.jp/tools/k_database/" class=next><img src="icon_k_database.gif" width="64" height="64" alt="(icon)" border="0"></a><!-- #EndEditable -->　<!-- #BeginEditable "title" --><!-- #BeginLibraryItem "/Library/title_kokyaku_tools.lbi" --><a href="http://kuze.tsukaeu.jp/tools/k_database/index.shtml" class=next>顧客管理データベース 
+ver 0.902D</a><!-- #EndLibraryItem --><!-- #EndEditable --></h1>
+		<div align=right>サポートURL: <!-- #BeginEditable "to_supportsite" --><a href="http://kuze.tsukaeru.jp/tools/k_database/" class=next>http://kuze.tsukaeru.jp/tools/k_database/</a><!-- #EndEditable --></div>
+	  </td>
+	</tr>
+  </table>
+  <br>
+  <table width="740" border="0">
+	<tr> 
+	  <td align="right"> <strong><font color="red">最終更新</font></strong>　 <!-- #BeginEditable "final update" --><!-- #BeginLibraryItem "/Library/update_kokyaku_tools.lbi" --><font color="red"><strong>2005年3月6日</strong></font>　顧客管理データベースver 0.902D の公開<br>
+ <font color="black" size=-1>2004年1月25日　顧客管理データベースver 0.902C の公開</font><br>
+<!-- #EndLibraryItem --><!-- #EndEditable --><br>
+		<font color="#000000" size=-1><!-- #BeginEditable "final update2" --><!-- #EndEditable --></font> <br>
+	  </td>
+	</tr>
+	<tr> 
+	  <td> 
+		<div align="right"><font size=-1> </font></div>
+	  </td>
+	</tr>
+  </table>
+  <img src="/imgbox/blackline.png" width="740" height="1" alt=" "> 
+  <table width="540">
+	<tr> 
+	  <td align="center" valign="middle"><!-- #BeginEditable "second menu" --> 
+        [ <a href="readme.html#characteristic" class=next>機能詳細</a> / <a href="readme.html#bugs" class=next>バグ情報</a> 
+        / <a href="readme.html#update" class=next>更新履歴</a> ] [ <a href="info_use.html#use" class=next>使い方</a> 
+        ] [ <a href="info_program.html#program" class=next>プログラム解説</a> ]<br>
+        [ <a href="info_supports.html#supports" class=next>ユーザーサポート</a> / <a href="info_supports.html#copyright" class=next>著作権・使用責任等について 
+        (改造のススメ)</a> ]<br>
+        [ <a href="info_supports.html#service" class=next>PR) 法人向け設置サービスについて (PR</a> 
+        ]<br>
+        <!-- #EndEditable --></td>
+	</tr>
+	<tr> 
+	  <td align="right" valign="middle"><!-- #BeginEditable "other file link" --><!-- #EndEditable --></td>
+	</tr>
+  </table>
+  <img src="/imgbox/blackline.png" width="740" height="1" alt=" "> <br>
+  <br>
+  <SCRIPT language="JavaScript">
+	<!--
+	  document.write("<table><tr><td width=740 bgcolor=#FFFFCC align=center valign=middle>");
+	// -->
+  </script>
+  <script type="text/javascript" src="/tools/cm/ad_changer.cgi"></script>
+  <SCRIPT language="JavaScript">
+	<!--
+	  document.write("</td></tr></table>");
+	// -->
+  </script>
+  <br>
+  <table width="740" border="0">
+	<tr> 
+	  <td> <br>
+		<!-- #BeginEditable "naiyou" --> <a name="program"></a> 
+        <h2>プログラム解説</h2>
+        <div align=right>[ <a href="#hensuu" class=next>主な変数名とその内容</a> / <a href="#form" class=next>フォーム出力データ</a> 
+          <br>
+          / <a href="#kouzou" class=next>プログラム全体の簡単な構造図</a> / <a href="#file" class=next>各ファイルについて一言解説</a> 
+          <br>
+          / <a href="#support_arrange" class=next>プログラム改造のサポート</a> ]</div>
+        <a name="hensuu"></a> 
+        <h3>主な変数名とその内容</h3>
+        <div align=center> 
+          <table border>
+            <tr> 
+              <td bgcolor=black><font color="white">変数名</font></td>
+              <td bgcolor=black><font color="white">その内容</font></td>
+            </tr>
+            <tr> 
+              <td>@addlink</td>
+              <td> フォームの各値引渡値<br>
+                [0]…アンカーによる値引渡し<br>
+                [1]…フォームによる値引渡し<br>
+                [2]…フォームによる値引渡し(改行除去)<br>
+              </td>
+            </tr>
+            <tr> 
+              <td>@config</td>
+              <td>設定データ群<br>
+                [0]…最終作成バージョンデーター読み取り(本編では使用しない)<br>
+                [1]…現在登録されているパスワード<br>
+                [2]…起動時などに表示される最近登録された件数<br>
+                [3]…最新順などに表示される管理者からのお知らせ<br>
+                [4]…一部操作履歴の表示件数<br>
+                [5]…一部操作履歴を何件まで残すか<br>
+                [6]…顧客データの履歴を何件まで残すか<br>
+                [7]…管理者によるメール一斉送信を最初何件表示するか<br>
+                [8]…一部操作履歴と一斉メール送信履歴で以下省略する改行の数<br>
+              </td>
+            </tr>
+            <tr> 
+              <td>$edit_id</td>
+              <td>詳細～:見るID</td>
+            </tr>
+            <tr> 
+              <td>$edit_inputerror</td>
+              <td>詳細～:追加の際、フォームの入力エラー全文</td>
+            </tr>
+            <tr> 
+              <td>$error_code</td>
+              <td>エラー:エラーコード<br>
+                0…特にエラーは発生していない<br>
+                1…管理者:設定ファイルの読み取りエラー<br>
+                2…システム管理機能:管理者用設定ファイルの書き込みエラー<br>
+                3…詳細(･修正･追加･削除)情報表示:顧客データの読み取りエラー<br>
+                4…修正･追加･削除処理:顧客データの読み取りエラー<br>
+                5…修正･追加･削除処理:顧客データの書き込みエラー<br>
+                6…修正･追加･削除処理:第1世代バックアップ顧客情報ファイル名の読み取りエラー<br>
+                7…最新 ?件 について:顧客データの読み取りエラー<br>
+                8…検索:顧客データの読み取りエラー<br>
+                9…対応履歴:履歴データの読み取りエラー<br>
+                10…対応履歴:第1世代バックアップ履歴ファイル名の読み取りエラー<br>
+                11…対応履歴:履歴データの書き込みエラー<br>
+                12…修正･追加･削除処理:履歴データの読み込みエラー<br>
+                13…修正･追加･削除処理:第1世代バックアップ履歴データの書き込みエラー<br>
+                14…修正･追加･削除処理:履歴データの書き込みエラー<br>
+                15…管理者:一部操作履歴の読み取りエラー<br>
+                16…メール送信エラー<br>
+              </td>
+            </tr>
+            <tr> 
+              <td>$error_file</td>
+              <td>エラー:エラーを引き起こしたファイル名</td>
+            </tr>
+            <tr> 
+              <td>$error_htmlplus</td>
+              <td>エラー:HTML出力時の追加メッセージ</td>
+            </tr>
+            <tr> 
+              <td>$error_search</td>
+              <td>エラー:検索失敗について<br>
+                0…特にエラーは発生していない<br>
+                1…キーワード未入力<br>
+                2…キーワード発見できず</td>
+            </tr>
+            <tr> 
+              <td>$file_config</td>
+              <td>管理者用設定ファイル名</td>
+            </tr>
+            <tr> 
+              <td>$file_kokyaku</td>
+              <td>顧客情報ファイル名</td>
+            </tr>
+            <tr> 
+              <td>$file_kokyaku_bak</td>
+              <td>第1世代バックアップ顧客情報ファイル名</td>
+            </tr>
+            <tr> 
+              <td>$file_main</td>
+              <td>このメインシステムファイル名</td>
+            </tr>
+            <tr> 
+              <td>$file_sousa_rireki</td>
+              <td>一部操作履歴ファイル名</td>
+            </tr>
+            <tr> 
+              <td>$file_taiou</td>
+              <td>対応履歴ファイル名</td>
+            </tr>
+            <tr> 
+              <td>$file_taiou_bak</td>
+              <td>第1世代バックアップ対応履歴ファイル名</td>
+            </tr>
+            <tr> 
+              <td>@form_oktag</td>
+              <td>フォームデータからそのまま利用するタグについて</td>
+            </tr>
+            <tr> 
+              <td>$kanji_code</td>
+              <td>通常時に使用する漢字コードについて</td>
+            </tr>
+            <tr> 
+              <td>$kanrimode_crypt</td>
+              <td>管理者:セキュリティー用パスワード暗号作成値</td>
+            </tr>
+            <tr> 
+              <td>$kanrimode_name</td>
+              <td>管理者:メール一斉送信時に登録する名前</td>
+            </tr>
+            <tr> 
+              <td>$kanrimode_password</td>
+              <td>管理者:セキュリティー用パスワード受け渡し用</td>
+            </tr>
+            <tr> 
+              <td>$kanrimode_passwordkari</td>
+              <td>管理者:セキュリティー用パスワード受け渡し用仮</td>
+            </tr>
+            <tr> 
+              <td>@kanrimode_rireki</td>
+              <td>管理者:一部操作履歴生データ</td>
+            </tr>
+            <tr> 
+              <td>$kanrimode_sw</td>
+              <td>管理者モードのOFF/ON<br>
+                0…OFF<br>
+                1…ON<br>
+                2…OFF(Password error)<br>
+                3…OFF(不正アクセス) </td>
+            </tr>
+            <tr> 
+              <td>@kokyaku_data</td>
+              <td>顧客データ:生</td>
+            </tr>
+            <tr> 
+              <td>@kokyaku_data_menu</td>
+              <td>顧客データ:顧客データメニュー部分での初期表示内容</td>
+            </tr>
+            <tr> 
+              <td>@kokyaku_koumokuname</td>
+              <td>顧客データ:各項目名</td>
+            </tr>
+            <tr> 
+              <td>@kokyaku_inputcyuui</td>
+              <td>顧客データ:入力時の注意コメント</td>
+            </tr>
+            <tr> 
+              <td>@kokyaku_syousai</td>
+              <td>顧客データ:詳細…時のフォーム初期入力各種データ</td>
+            </tr>
+            <tr> 
+              <td>$mailer_demolock</td>
+              <td>メール:送信ボタンを押したら本当に送信するの？<br>
+                0…Yes <br>
+                1…No </td>
+            </tr>
+            <tr> 
+              <td>$mailer_ownaddress</td>
+              <td>メール:管理者のアドレス</td>
+            </tr>
+            <tr> 
+              <td>$mailer_pass</td>
+              <td>メール:semdmailもしくは、その互換までのパス</td>
+            </tr>
+            <tr> 
+              <td>$reload_url</td>
+              <td>顧客管理データベースの読み直し</td>
+            </tr>
+            <tr> 
+              <td>@rireki_data</td>
+              <td>履歴データ:生</td>
+            </tr>
+            <tr> 
+              <td>@rireki_koumokuname</td>
+              <td>履歴データ:各項目名</td>
+            </tr>
+            <tr> 
+              <td>$rireki_viewall</td>
+              <td>履歴データ:この会社IDで該当表示する内容は何件か？</td>
+            </tr>
+            <tr> 
+              <td>$search_houhou</td>
+              <td>検索:検索方法<br>
+                1…顧客検索<br>
+                2…履歴検索</td>
+            </tr>
+            <tr> 
+              <td>$search_keyword</td>
+              <td>検索:実際に検索するキーワード</td>
+            </tr>
+            <tr> 
+              <td>$sendmail_kazu</td>
+              <td>メール一斉送信:送信する相手先の数</td>
+            </tr>
+            <tr> 
+              <td>$sw</td>
+              <td>表示内容の切り替え<br>
+                0…最新 ?件 について(初期画面)<br>
+                1…検索結果<br>
+                2…詳細(･修正･追加･削除)情報表示<br>
+                3…修正･追加･削除確認<br>
+                4…修正･追加･削除処理<br>
+                5…管理者専用設定<br>
+                6…管理者専用設定変更確認<br>
+                7…管理者専用設定切り替え<br>
+                8…管理者機能ON/OFF切り替え確認表示<br>
+                9…対応履歴の追加・編集結果保存<br>
+                10…対応履歴の編集画面<br>
+                11…一部操作履歴の設定変更確認<br>
+                12…一部操作履歴設定切り替え<br>
+                13…一斉メール送信内容入力<br>
+                14…一斉メール送信設定切り替え<br>
+                15…一斉メール送信するアドレスを確認<br>
+                16…一斉メール送信を実際にする<br>
+              </td>
+            </tr>
+            <tr> 
+              <td>$system_back</td>
+              <td>機能実行:処理終了後･戻る処理番号</td>
+            </tr>
+            <tr> 
+              <td>$system_loop</td>
+              <td>機能実行:処理終了後･他処理も実行するのか？</td>
+            </tr>
+            <tr> 
+              <td>@taiou_koumokuname</td>
+              <td>対応データ:各項目名</td>
+            </tr>
+            <tr> 
+              <td>$version</td>
+              <td>システムバージョン情報</td>
+            </tr>
+            <tr> 
+              <td>@view_kokyaku</td>
+              <td>最新順&検索結果:該当表示する顧客データか?<br>
+                0…No<br>
+                1…Yes </td>
+            </tr>
+            <tr> 
+              <td>@view_rireki</td>
+              <td>対応履歴:該当表示する履歴データか?<br>
+                0…No<br>
+                1…Yes </td>
+            </tr>
+            <tr> 
+              <td>$view_rirekistart</td>
+              <td>対応履歴:表示時一度に出てくる件数･初期値</td>
+            </tr>
+            <tr> 
+              <td>$view_start</td>
+              <td>最新順:起動時に記録の上から表示する件数･無設定時</td>
+            </tr>
+          </table>
+        </div>
+        <br>
+        <a name="form"></a> 
+        <h3>フォーム出力データ</h3>
+        <div align=center> 
+          <table border>
+            <tr> 
+              <td bgcolor=black><font color="white">名前</font></td>
+              <td bgcolor=black><font color="white">内容</font></td>
+            </tr>
+            <tr> 
+              <td>ADDR</td>
+              <td>mapfan様用引渡し値</td>
+            </tr>
+            <tr> 
+              <td>backpage</td>
+              <td>機能終了後戻る各機能</td>
+            </tr>
+            <tr> 
+              <td>bye</td>
+              <td>顧客履歴:この顧客データ削除?!<br>
+                0…No<br>
+                1…Yes</td>
+            </tr>
+            <tr> 
+              <td>callno</td>
+              <td>顧客履歴:呼び出しID</td>
+            </tr>
+            <tr> 
+              <td>change_cut_mailissei_rireki</td>
+              <td>変更指定:一部操作履歴と一斉メール送信履歴で以下省略する改行の数</td>
+            </tr>
+            <tr> 
+              <td>change_info</td>
+              <td>変更指定:管理者からのお知らせ</td>
+            </tr>
+            <tr> 
+              <td>change_leave_sousarireki</td>
+              <td>変更指定:一部操作履歴を残す件数</td>
+            </tr>
+            <tr> 
+              <td>change_pass</td>
+              <td>変更指定:パスワード変更</td>
+            </tr>
+            <tr> 
+              <td>change_rireki_kazu</td>
+              <td>変更指定:対応履歴の保存件数</td>
+            </tr>
+            <tr> 
+              <td>change_view</td>
+              <td>変更指定:表示する最新入力件数</td>
+            </tr>
+            <tr> 
+              <td>change_view_mailissei_rireki</td>
+              <td>変更指定:一斉メール送信履歴のここで表示する件数</td>
+            </tr>
+            <tr> 
+              <td>change_view_sousarireki</td>
+              <td>変更指定:一部操作履歴の表示する件数</td>
+            </tr>
+            <tr> 
+              <td>firstview_page</td>
+              <td>最新順:何ページ目を見ているか</td>
+            </tr>
+            <tr> 
+              <td>html_sw</td>
+              <td>呼び出された(す)各機能</td>
+            </tr>
+            <tr> 
+              <td>kanrimode_check</td>
+              <td>管理者モード:セキュリティー用パスワード</td>
+            </tr>
+            <tr> 
+              <td>kanrimode_change</td>
+              <td>管理者モード:起動用パスワード入力された文字</td>
+            </tr>
+            <tr> 
+              <td>kanrimode_pass</td>
+              <td>管理者モード:管理者モード侵入へ入力されたパスワード</td>
+            </tr>
+            <tr> 
+              <td>keyword_kokyaku</td>
+              <td>検索：顧客データから検索するキーワード</td>
+            </tr>
+            <tr> 
+              <td>keyword_rireki</td>
+              <td>検索：履歴データから検索するキーワード</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata0</td>
+              <td>フォーム:各入力されたデータ(ID)</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata1</td>
+              <td>フォーム:各入力されたデータ(屋号)</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata2</td>
+              <td>フォーム:各入力されたデータ(会社名)</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata3</td>
+              <td>フォーム:各入力されたデータ(会社名ふりがな)</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata4</td>
+              <td>フォーム:各入力されたデータ(代表社名)</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata5</td>
+              <td>フォーム:各入力されたデータ(代表社名ふりがな)</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata6</td>
+              <td>フォーム:各入力されたデータ(役職)</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata7</td>
+              <td>フォーム:各入力されたデータ(担当者)</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata8</td>
+              <td>フォーム:各入力されたデータ(担当者ふりがな)</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata9</td>
+              <td>フォーム:各入力されたデータ(担当者役職)</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata10</td>
+              <td>フォーム:各入力されたデータ(住所－郵便番号)</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata11</td>
+              <td>フォーム:各入力されたデータ(住所－名前)</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata12</td>
+              <td>フォーム:各入力されたデータ(書類など送付先－郵便番号)</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata13</td>
+              <td>フォーム:各入力されたデータ(書類など送付先－名前)</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata14</td>
+              <td>フォーム:各入力されたデータ(TEL)</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata15</td>
+              <td>フォーム:各入力されたデータ(FAX)</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata16</td>
+              <td>フォーム:各入力されたデータ(E-Mail)</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata17</td>
+              <td>フォーム:各入力されたデータ(登記住所)</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata18</td>
+              <td>フォーム:各入力されたデータ(登記年月日)</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata19</td>
+              <td>フォーム:各入力されたデータ(資本金)</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata20</td>
+              <td>フォーム:各入力されたデータ(年商)</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata21</td>
+              <td>フォーム:各入力されたデータ(従業員)</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata22</td>
+              <td>フォーム:各入力されたデータ(業種)</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata23</td>
+              <td>フォーム:各入力されたデータ(事業内容)</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata24</td>
+              <td>フォーム:各入力されたデータ(プロバイダ名)</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata25</td>
+              <td>フォーム:各入力されたデータ(Website)</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata26</td>
+              <td>フォーム:各入力されたデータ(サーバー)</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata27</td>
+              <td>フォーム:各入力されたデータ(回線種別)</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata28</td>
+              <td>フォーム:各入力されたデータ(PC台数)</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata29</td>
+              <td>フォーム:各入力されたデータ(LAN環境)</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata30</td>
+              <td>フォーム:各入力されたデータ(営業担当者名)</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata31</td>
+              <td>フォーム:各入力されたデータ(備考)</td>
+            </tr>
+            <tr> 
+              <td>input_kokyakudata32</td>
+              <td>フォーム:各入力されたデータ(主な商材)</td>
+            </tr>
+            <tr> 
+              <td>move_url</td>
+              <td>外部URLへの移動:移動先URLの指定</td>
+            </tr>
+            <tr> 
+              <td>rireki_callno</td>
+              <td>対応履歴:編集するのは履歴ID</td>
+            </tr>
+            <tr> 
+              <td>rireki_command</td>
+              <td>対応履歴:顧客データをどうするか<br>
+                0…新規追加<br>
+                1…削除<br>
+                2…修正 </td>
+            </tr>
+            <tr> 
+              <td>rireki_inputkokyaku</td>
+              <td>対応履歴:顧客名登録</td>
+            </tr>
+            <tr> 
+              <td>rireki_inputid</td>
+              <td>対応履歴:顧客ID登録</td>
+            </tr>
+            <tr> 
+              <td>rireki_inputnaiyou</td>
+              <td>対応履歴:対応内容登録</td>
+            </tr>
+            <tr> 
+              <td>rireki_inputsyubetsu</td>
+              <td>対応履歴:対応種別登録</td>
+            </tr>
+            <tr> 
+              <td>rireki_inputtaiousya</td>
+              <td>対応履歴:対応者登録</td>
+            </tr>
+            <tr> 
+              <td>rireki_inputtime</td>
+              <td>対応履歴:入力された時間</td>
+            </tr>
+            <tr> 
+              <td>rireki_viewpage</td>
+              <td>対応履歴:見ているページについて</td>
+            </tr>
+            <tr> 
+              <td>search_before_houhou</td>
+              <td>検索：前回検索した方法<br>
+                1…顧客検索<br>
+                2…履歴検索</td>
+            </tr>
+            <tr> 
+              <td>search_before_word</td>
+              <td>検索：前回検索したキーワード</td>
+            </tr>
+            <tr> 
+              <td>sendmail_addlist</td>
+              <td>メール一斉送信：送信リストに追加する番号(ID番号で指定)</td>
+            </tr>
+            <tr> 
+              <td>sendmail_all</td>
+              <td>メール一斉送信:送信リスト全体に対する操作<br>
+                0…何もしない。<br>
+                1…全て初期化する。<br>
+                2…登録アドレス全て追加。<br>
+              </td>
+            </tr>
+            <tr> 
+              <td>sendmail_dellist</td>
+              <td>メール一斉送信：送信リストに追加する番号(ID番号で指定)</td>
+            </tr>
+            <tr> 
+              <td>sendmail_honbun</td>
+              <td>メール一斉送信：送信するメールの本文</td>
+            </tr>
+            <tr> 
+              <td>sendmail_sw</td>
+              <td>メール一斉送信：どこへ送ろうか選択中か？<br>
+                0…メール一斉送信をそもそもしようとしていない。<br>
+                1…どこに送ろうか選択中。<br>
+                2…メール文章設定他。<br>
+              </td>
+            </tr>
+            <tr> 
+              <td>sendmail_title</td>
+              <td>メール一斉送信：送信するメールのタイトル</td>
+            </tr>
+          </table>
+        </div>
+        <br>
+        <a name="kouzou"></a> 
+        <h3>プログラム全体の簡単な構造図</h3>
+        <div align=center><img src="info_program.gif" width="664" height="2700" alt="プログラム全体の簡単な構造図"></div>
+        <br>
+        <a name="file"></a> 
+        <h3>各ファイルについて一言解説</h3>
+        <div align=center> 
+          <table border>
+            <tr> 
+              <td bgcolor=black><font color="white">ファイル名</font></td>
+              <td bgcolor=black><font color="white">一言解説</font></td>
+            </tr>
+            <tr> 
+              <td>downdata.cgi</td>
+              <td>顧客管理DataBase用Excelデータ変換</td>
+            </tr>
+            <tr> 
+              <td>dummy.cgi</td>
+              <td>外部URL移動の際どのサイトから移動したのかを示す環境変数HTTP_REFERERの値を除去</td>
+            </tr>
+            <tr> 
+              <td>index.cgi</td>
+              <td>メインルーチンを示したファイル名<br>
+                (ファイル名変更可・その際はindex.cgiにある $file_main の内容を変更してください。) </td>
+            </tr>
+            <tr> 
+              <td> 
+                <hr>
+              </td>
+              <td> 
+                <hr>
+              </td>
+            </tr>
+            <tr> 
+              <td>debug_lib.pl</td>
+              <td>デバッグ用(使用しません)</td>
+            </tr>
+            <tr> 
+              <td>edit_check_sub.pl</td>
+              <td>修正･追加･削除確認</td>
+            </tr>
+            <tr> 
+              <td>edit_rireki_sub.pl</td>
+              <td>対応履歴の編集画面</td>
+            </tr>
+            <tr> 
+              <td>edit_save_sub.pl</td>
+              <td>修正･追加･削除処理</td>
+            </tr>
+            <tr> 
+              <td>edit_sendmail_sub.pl</td>
+              <td>メール一斉送信－メール内容入力</td>
+            </tr>
+            <tr> 
+              <td>edit_sendmail_send_sub.pl</td>
+              <td>メール送信</td>
+            </tr>
+            <tr> 
+              <td>edit_sendmail_naiyou_sub.pl</td>
+              <td>メール内容入力</td>
+            </tr>
+            <tr> 
+              <td>encodesubject_lib.pl</td>
+              <td>メールの日本語サブジェクトをエンコードする<br>
+                (<a href="http://www.futomi.com/subroutine/encodesubject.html" class=next>futomi's 
+                CGI Cafe</a> 様から、そのまま拝借させていただいています)</td>
+            </tr>
+            <tr> 
+              <td>file_access_lib.pl</td>
+              <td>ファイルの読み書き部分</td>
+            </tr>
+            <tr> 
+              <td>form_lib.pl</td>
+              <td>フォームからの情報を連想配列 %form に入れる</td>
+            </tr>
+            <tr> 
+              <td>html_check_set_sendmail_sub.pl</td>
+              <td>一斉メール送信設定変更</td>
+            </tr>
+            <tr> 
+              <td>html_check_sousarireki_sub.pl</td>
+              <td>ページの出力－一部操作履歴設定確認</td>
+            </tr>
+            <tr> 
+              <td>html_check_system_sub.pl</td>
+              <td>ページの出力－システム変更設定確認</td>
+            </tr>
+            <tr> 
+              <td>html_edit_system_sub.pl</td>
+              <td>ページの出力－システム設定</td>
+            </tr>
+            <tr> 
+              <td>html_kanrimode_switch_sub.pl</td>
+              <td>ページの出力－管理者機能のスイッチON/OFFについて</td>
+            </tr>
+            <tr> 
+              <td>html_mail_kakunin_sub.pl</td>
+              <td>ページの出力－メール一斉送信でメール内容確認</td>
+            </tr>
+            <tr> 
+              <td>html_mail_naiyou_sub.pl</td>
+              <td>ページの出力－メール一斉送信でメール内容入力</td>
+            </tr>
+            <tr> 
+              <td>html_new&search_sub.pl</td>
+              <td>ページの出力－最新順について&検索結果</td>
+            </tr>
+            <tr> 
+              <td>html_syousai0_sub.pl</td>
+              <td>ページの出力－詳細(･修正･追加･削除)情報表示</td>
+            </tr>
+            <tr> 
+              <td>html_syousai1_sub.pl</td>
+              <td>ページの出力－修正･追加･削除確認</td>
+            </tr>
+            <tr> 
+              <td>html_syousai2_sub.pl</td>
+              <td>ページの出力－対応履歴の編集画面</td>
+            </tr>
+            <tr> 
+              <td>jcode.pl</td>
+              <td>漢字コード変換 (<a href="http://srekcah.org/jcode/" class=next>歌代 和正</a> 
+                様のものを、そのまま拝借させていただいています)</td>
+            </tr>
+            <tr> 
+              <td>master_check_sub.pl</td>
+              <td>管理者専用設定の確認表示準備</td>
+            </tr>
+            <tr> 
+              <td>master_edit_sub.pl</td>
+              <td>管理者専用設定の現在の状態表示準備</td>
+            </tr>
+            <tr> 
+              <td>master_switch_sub.pl</td>
+              <td>管理者モードのスイッチON/OFFについて</td>
+            </tr>
+            <tr> 
+              <td>options_lib.pl</td>
+              <td>フォームでメニュー選択時に表示する文字列群</td>
+            </tr>
+            <tr> 
+              <td>output_sub.pl</td>
+              <td>HTML出力部分</td>
+            </tr>
+            <tr> 
+              <td>save_kanri_rireki_lib.pl</td>
+              <td>一部操作履歴の保存</td>
+            </tr>
+            <tr> 
+              <td>save_rireki_sub.pl</td>
+              <td>対応履歴の追加</td>
+            </tr>
+            <tr> 
+              <td>search_sub.pl</td>
+              <td>検索結果</td>
+            </tr>
+            <tr> 
+              <td>seiri_formdata_lib.pl</td>
+              <td>フォームのデータ群を整理する</td>
+            </tr>
+            <tr> 
+              <td>set_new_sub.pl</td>
+              <td>最新順 ?件 について(初期画面)</td>
+            </tr>
+            <tr> 
+              <td>syousai_sub.pl</td>
+              <td>詳細(･修正･追加･削除)情報表示</td>
+            </tr>
+            <tr> 
+              <td>tab_cut_lib.pl</td>
+              <td>文字列をタブ単位でバラバラにする</td>
+            </tr>
+            <tr> 
+              <td> 
+                <hr>
+              </td>
+              <td> 
+                <hr>
+              </td>
+            </tr>
+            <tr> 
+              <td>debug.txt</td>
+              <td>デバッグ用(使用しません)</td>
+            </tr>
+            <tr> 
+              <td> 
+                <hr>
+              </td>
+              <td> 
+                <hr>
+              </td>
+            </tr>
+            <tr> 
+              <td>kokyaku.bak</td>
+              <td>第1世代バックアップ顧客情報ファイル</td>
+            </tr>
+            <tr> 
+              <td>taiou.bak</td>
+              <td>第1世代バックアップ対応履歴ファイル</td>
+            </tr>
+            <tr> 
+              <td>kanrisya_rireki.csv</td>
+              <td>一部操作履歴ファイル</td>
+            </tr>
+            <tr> 
+              <td>kokyaku.csv</td>
+              <td>顧客情報ファイル</td>
+            </tr>
+            <tr> 
+              <td>taiou.csv</td>
+              <td>対応履歴ファイル</td>
+            </tr>
+            <tr> 
+              <td>config.dat</td>
+              <td>管理者用設定ファイル</td>
+            </tr>
+            <tr> 
+              <td> 
+                <hr>
+              </td>
+              <td> 
+                <hr>
+              </td>
+            </tr>
+            <tr> 
+              <td>icon_k_database.gif</td>
+              <td>アイコン－このソフト自身のものです</td>
+            </tr>
+            <tr> 
+              <td>icon_mail.gif</td>
+              <td>アイコン－メール先を示す封筒(のつもり)</td>
+            </tr>
+            <tr> 
+              <td>icon_website.gif</td>
+              <td>アイコン－Website先を示す地球(のつもり)</td>
+            </tr>
+            <tr> 
+              <td>icon_k_database.ico</td>
+              <td>アイコン－このソフト自身のものです</td>
+            </tr>
+            <tr> 
+              <td> 
+                <hr>
+              </td>
+              <td> 
+                <hr>
+              </td>
+            </tr>
+            <tr> 
+              <td>info_program.shtml</td>
+              <td>このプログラム解説です(使用しません/ブラウザでお読みください)</td>
+            </tr>
+            <tr> 
+              <td>info_supports.shtml</td>
+              <td>ユーザーサポート等です(使用しません/ブラウザでお読みください)</td>
+            </tr>
+            <tr> 
+              <td>info_use.shtml</td>
+              <td>使い方等です(使用しません/ブラウザでお読みください)</td>
+            </tr>
+            <tr> 
+              <td>readme.shtml</td>
+              <td>オフラインマニュアルのスタートページ・機能紹介などについてです(使用しません/ブラウザでお読みください)</td>
+            </tr>
+            <tr> 
+              <td>image1.gif</td>
+              <td>ソフト紹介図その1(使用しません)</td>
+            </tr>
+            <tr> 
+              <td>image2.gif</td>
+              <td>ソフト紹介図その2(使用しません)</td>
+            </tr>
+            <tr> 
+              <td>info_program.gif</td>
+              <td>プログラム全体の簡単な構造図(使用しません)</td>
+            </tr>
+            <tr> 
+              <td>kanrisya.gif</td>
+              <td>ソフト説明用画像_管理者(使用しません)</td>
+            </tr>
+            <tr> 
+              <td>points.gif</td>
+              <td>全く使用しません</td>
+            </tr>
+            <tr> 
+              <td>saishin_jyun.gif</td>
+              <td>ソフト説明用画像_最新順(使用しません)</td>
+            </tr>
+            <tr> 
+              <td>syousai.gif</td>
+              <td>ソフト説明用画像_詳細・修正・追加・削除(使用しません)</td>
+            </tr>
+          </table>
+        </div>
+        <br>
+        <a name="support_arrange"></a> 
+        <h3>プログラム改造のサポート</h3>
+        より使い易く便利に顧客管理データベースを改造したい方の為に、MLや掲示板などを用意しています。<br>
+        <a href="info_supports.html#supports" class=next>詳細はこちらをどうぞ。</a><br>
+        <br>
+        <!-- #EndEditable --> </td>
+	</tr>
+  </table>
+  <br>
+  <table>
+    <tr> 
+	  <td width="740" align=left valign=middle><!-- #BeginEditable "third_links" --><div align=center> 
+          <table width="540">
+            <tr> 
+              <td align="center" valign="middle"> [ <a href="readme.html#characteristic" class=next>機能詳細</a> 
+                / <a href="readme.html#bugs" class=next>バグ情報</a> / <a href="readme.html#update" class=next>更新履歴</a> 
+                ] [ <a href="info_use.html#use" class=next>使い方</a> ] [ <a href="info_program.html#program" class=next>プログラム解説</a> 
+                ]<br>
+                [ <a href="info_supports.html#supports" class=next>ユーザーサポート</a> 
+                / <a href="info_supports.html#copyright" class=next>著作権・使用責任等について 
+                (改造のススメ)</a> ]<br>
+                [ <a href="info_supports.html#service" class=next>PR) 法人向け設置サービスについて (PR</a> ]<br>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <!-- #EndEditable --></td>
+	</tr>
+  </table>
+  <br>
+  <SCRIPT language="JavaScript">
+	<!--
+	  document.write("<table><tr><td width=740 bgcolor=#FFFFCC align=center valign=middle>");
+	// -->
+  </script>
+  <script type="text/javascript" src="/tools/cm/ad_changer.cgi"></script>
+  <SCRIPT language="JavaScript">
+	<!--
+	  document.write("</td></tr></table>");
+	// -->
+  </script>
+  <br>
+  <table>
+	<tr> 
+	  <td width="740" align=right valign=middle> [ <a href="#top" class=next>▲ 
+		ページの頭まで戻る ▲</a> ] </td>
+	</tr>
+  </table>
+  <br>
+  <br>
+  <table>
+	<tr> 
+	  <td width="740" align="right" valign="top"> 
+		<hr>
+		&copy; Copyright <a href="mailto:kuze_work@hotmail.com">Hiroshi Kuze</a> 
+		<!-- #BeginEditable "copyright_year" -->2002-2004<!-- #EndEditable --> 
+		( <a href="mailto:kuze_work@hotmail.com">kuze_work@hotmail.com</a> ).<br>
+		サポートURL: <!-- #BeginEditable "to_supportsite2" --><a href="http://kuze.tsukaeru.jp/tools/k_database/">http://kuze.tsukaeru.jp/tools/k_database/</a><!-- #EndEditable --><br>
+		なお、親サーバーがトラブル時には <a href="http://testrion.hp.infoseek.co.jp/">http://testrion.hp.infoseek.co.jp/</a> 
+		にて対応します。<br>
+	  </td>
+	</tr>
+  </table>
+</div>
+</body>
+<!-- #EndTemplate --></html>
