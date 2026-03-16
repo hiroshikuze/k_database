@@ -4,6 +4,8 @@ A lightweight, web-based customer relationship management (CRM) system written i
 
 > **Current version**: 0.902D (last updated March 6, 2005)
 
+[![Japanese Documentation](https://img.shields.io/badge/docs-日本語ドキュメント-blue?style=for-the-badge&logo=readme)](docs/index.html)
+
 ---
 
 ## Features
