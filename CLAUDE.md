@@ -31,7 +31,8 @@ k_database/
 │   ├── info_use.html       # Usage manual (Japanese)
 │   ├── info_supports.html  # Support and copyright information (Japanese)
 │   └── info_program.gif    # Screenshot used in documentation
-└── src/                    # Deployable application — copy this directory to the web server
+└── src/                    # Deployable application — also served as GitHub Pages
+    ├── index.html          # Japanese documentation (GitHub Pages top page)
     ├── index.cgi           # Main CGI entry point — all request routing
     ├── downdata.cgi        # Excel/CSV data export
     ├── dummy.cgi           # HTTP referrer security validation
