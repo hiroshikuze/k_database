@@ -25,12 +25,14 @@ k_database/
 ├── README.md               # Short project description
 ├── LICENCE.md              # License terms (Japanese)
 ├── CLAUDE.md               # This file — AI assistant guide
-├── docs/                   # Standalone documentation (not loaded by the app)
-│   ├── readme.html         # Main user guide (Japanese)
+├── docs/                   # GitHub Pages source — served at https://hiroshikuze.github.io/k_database/
+│   ├── index.html          # Top page (Japanese documentation)
 │   ├── info_program.html   # Program structure documentation (Japanese)
 │   ├── info_use.html       # Usage manual (Japanese)
 │   ├── info_supports.html  # Support and copyright information (Japanese)
-│   └── info_program.gif    # Screenshot used in documentation
+│   ├── info_program.gif    # Screenshot used in documentation
+│   ├── image1.gif          # App screenshot 1
+│   └── image2.gif          # App screenshot 2
 └── src/                    # Deployable application — copy this directory to the web server
     ├── index.cgi           # Main CGI entry point — all request routing
     ├── downdata.cgi        # Excel/CSV data export
