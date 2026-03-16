@@ -21,21 +21,31 @@ This document describes the structure, conventions, and workflows for the **k_da
 
 ```
 k_database/
-├── index.cgi               # Main CGI entry point — all request routing
-├── downdata.cgi            # Excel/CSV data export
-├── dummy.cgi               # HTTP referrer security validation
-├── config.dat              # Binary (Perl serialized) configuration
-├── kokyaku.csv             # Customer master database (tab-delimited)
-├── kokyaku.bak             # Auto-backup of customer database
-├── taiou.csv               # Interaction/correspondence log
-├── taiou.bak               # Auto-backup of interaction log
-├── sousa_rireki.csv        # Operation audit trail
-├── *.pl                    # Perl library modules and sub-routines
-├── *.html                  # Japanese documentation (info_*.html, readme.html)
-├── *.gif / *.ico           # UI icons and screenshots
+├── .gitignore              # Excludes runtime-generated *.bak files
 ├── README.md               # Short project description
-└── LICENCE.md              # License terms (Japanese)
+├── LICENCE.md              # License terms (Japanese)
+├── CLAUDE.md               # This file — AI assistant guide
+├── docs/                   # Standalone documentation (not loaded by the app)
+│   ├── readme.html         # Main user guide (Japanese)
+│   ├── info_program.html   # Program structure documentation (Japanese)
+│   ├── info_use.html       # Usage manual (Japanese)
+│   ├── info_supports.html  # Support and copyright information (Japanese)
+│   └── info_program.gif    # Screenshot used in documentation
+└── src/                    # Deployable application — copy this directory to the web server
+    ├── index.cgi           # Main CGI entry point — all request routing
+    ├── downdata.cgi        # Excel/CSV data export
+    ├── dummy.cgi           # HTTP referrer security validation
+    ├── config.dat          # Binary (Perl serialized) configuration
+    ├── kokyaku.csv         # Customer master database (tab-delimited, header only)
+    ├── taiou.csv           # Interaction/correspondence log (header only)
+    ├── sousa_rireki.csv    # Operation audit trail
+    ├── favicon.ico         # Browser tab icon
+    ├── *.gif               # UI icons (icon_*.gif) and documentation screenshots (image*.gif)
+    └── *.pl                # All Perl library modules and feature subroutines (flat)
 ```
+
+> **Note**: `*.bak` files are runtime-generated backups — excluded from the repository via `.gitignore`.
+> All `*.pl` files are kept flat within `src/` so that `require 'lib.pl'` statements in the CGI scripts resolve correctly without any path changes.
 
 ---
 
@@ -182,7 +192,7 @@ $cut_end[1]             # second field, etc.
 ### No Build Step
 
 This is a pure CGI script application — no compilation, no bundler, no transpiler. To deploy:
-1. Copy files to a CGI-enabled web directory
+1. Copy the entire `src/` directory contents to a CGI-enabled web directory
 2. Set execute permissions on `*.cgi` files (`chmod 755`)
 3. Ensure the web server user has write access to `*.csv` and `*.bak` files
 
@@ -246,11 +256,13 @@ If adding tests, consider using `Test::More` (standard Perl testing) with mock C
 
 ## Important Notes for AI Assistants
 
-1. **Japanese content is expected** — do not replace Japanese strings with English unless the user explicitly asks
-2. **EUC-JP encoding** — be careful when modifying files that contain Japanese characters
-3. **No tests exist** — do not assume correctness without manual verification
-4. **Global state** — modifying shared variables (e.g., `%form`, `@cut_end`) affects the whole request
-5. **File locking is critical** — always use `file_access_lib.pl` for CSV I/O; direct file access bypasses locking and risks data corruption
-6. **Backup files** — `*.bak` files are auto-generated; do not delete them as they are the only recovery mechanism
-7. **CGI environment** — code runs under a web server; `STDIN`, `STDOUT`, and environment variables like `QUERY_STRING` are the I/O channels
-8. **Old Perl idioms** — the codebase uses pre-modern Perl patterns; prefer consistency with existing style over modernization unless asked
+1. **Repository layout** — source is in `src/`, docs in `docs/`. When editing or creating files, place them in the correct directory
+2. **Japanese content is expected** — do not replace Japanese strings with English unless the user explicitly asks
+3. **EUC-JP encoding** — be careful when modifying files that contain Japanese characters
+4. **No tests exist** — do not assume correctness without manual verification
+5. **Global state** — modifying shared variables (e.g., `%form`, `@cut_end`) affects the whole request
+6. **File locking is critical** — always use `file_access_lib.pl` for CSV I/O; direct file access bypasses locking and risks data corruption
+7. **Backup files** — `*.bak` files are auto-generated and gitignored; do not commit them
+8. **CGI environment** — code runs under a web server; `STDIN`, `STDOUT`, and environment variables like `QUERY_STRING` are the I/O channels
+9. **Old Perl idioms** — the codebase uses pre-modern Perl patterns; prefer consistency with existing style over modernization unless asked
+10. **`require` paths** — all `*.pl` files are flat in `src/`; do not move them into subdirectories without updating all `require` calls in `index.cgi`, `downdata.cgi`, `dummy.cgi`, and any other modules that load them
