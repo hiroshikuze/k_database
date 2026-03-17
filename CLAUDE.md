@@ -1,274 +1,212 @@
-# CLAUDE.md — AI Assistant Guide for k_database
-
-This document describes the structure, conventions, and workflows for the **k_database** repository, intended for AI assistants and developers working on this codebase.
+# CLAUDE.md — k_database AIアシスタントガイド
 
 ---
 
-## Project Overview
+## プロジェクト概要
 
-**k_database** is a lightweight, CGI-based Customer Relationship Management (CRM) system written in Perl. It targets small organizations managing customer data and interaction histories. The UI and internal comments are primarily in **Japanese**.
+**k_database** は Perl 製の軽量 CGI ベース顧客管理システム（CRM）。小規模組織向けに顧客データと対応履歴を管理する。UI・コメントは主に**日本語**。
 
-- **Language**: Perl 5 (procedural, no OOP)
-- **Architecture**: CGI web application (no framework)
-- **Data Storage**: Flat CSV files (no SQL database)
-- **Character Encoding**: EUC-JP (with conversion utilities for JIS/SJIS)
-- **Author**: hiroshikuze
-- **License**: Custom (see LICENCE.md) — free to use/modify with attribution
+- **言語**: Perl 5（手続き型、OOP なし）
+- **アーキテクチャ**: CGI Web アプリケーション（フレームワークなし）
+- **データ保存**: フラット CSV ファイル（SQL データベースなし）
+- **文字コード**: EUC-JP（JIS/SJIS 変換ユーティリティあり）
+- **作者**: hiroshikuze
+- **ライセンス**: カスタム（LICENCE.md 参照）— 帰属表示付きで利用・改変自由
 
 ---
 
-## Repository Structure
+## リポジトリ構造
 
 ```
 k_database/
-├── .gitignore              # Excludes runtime-generated *.bak files
-├── README.md               # Short project description
-├── LICENCE.md              # License terms (Japanese)
-├── CLAUDE.md               # This file — AI assistant guide
-├── docs/                   # GitHub Pages source — served at https://hiroshikuze.github.io/k_database/
-│   ├── index.html          # Top page (Japanese documentation)
-│   ├── info_program.html   # Program structure documentation (Japanese)
-│   ├── info_use.html       # Usage manual (Japanese)
-│   ├── info_supports.html  # Support and copyright information (Japanese)
-│   ├── info_program.gif    # Screenshot used in documentation
-│   ├── image1.gif          # App screenshot 1
-│   └── image2.gif          # App screenshot 2
-└── src/                    # Deployable application — copy this directory to the web server
-    ├── index.cgi           # Main CGI entry point — all request routing
-    ├── downdata.cgi        # Excel/CSV data export
-    ├── dummy.cgi           # HTTP referrer security validation
-    ├── config.dat          # Binary (Perl serialized) configuration
-    ├── kokyaku.csv         # Customer master database (tab-delimited, header only)
-    ├── taiou.csv           # Interaction/correspondence log (header only)
-    ├── sousa_rireki.csv    # Operation audit trail
-    ├── favicon.ico         # Browser tab icon
-    ├── *.gif               # UI icons (icon_*.gif) and documentation screenshots (image*.gif)
-    └── *.pl                # All Perl library modules and feature subroutines (flat)
+├── .gitignore              # ランタイム生成の *.bak を除外
+├── README.md               # プロジェクト概要
+├── LICENCE.md              # ライセンス条項（日本語）
+├── CLAUDE.md               # このファイル
+├── docs/                   # GitHub Pages ソース
+│   ├── index.html          # トップページ
+│   ├── info_program.html   # プログラム構造ドキュメント
+│   ├── info_use.html       # 使用マニュアル
+│   └── info_supports.html  # サポート・著作権情報
+└── src/                    # デプロイ対象（Web サーバーにこのディレクトリをコピー）
+    ├── index.cgi           # メインコントローラー（$sw によるルーティング）
+    ├── downdata.cgi        # Excel/CSV データエクスポート
+    ├── dummy.cgi           # HTTP_REFERER セキュリティ検証
+    ├── config.dat          # バイナリ設定ファイル（Perl シリアライズ）
+    ├── kokyaku.csv         # 顧客マスター（タブ区切り）
+    ├── taiou.csv           # 対応履歴ログ
+    ├── sousa_rireki.csv    # 操作監査ログ
+    └── *.pl                # Perl ライブラリモジュール・機能サブルーチン（フラット配置）
 ```
 
-> **Note**: `*.bak` files are runtime-generated backups — excluded from the repository via `.gitignore`.
-> All `*.pl` files are kept flat within `src/` so that `require 'lib.pl'` statements in the CGI scripts resolve correctly without any path changes.
+> `*.bak` はランタイム生成バックアップ — `.gitignore` で除外済み。
+> `*.pl` は `src/` 直下にフラット配置。`require 'lib.pl'` のパスが通るよう**サブディレクトリに移動しないこと**。
 
 ---
 
-## Source File Roles
+## ソースファイル一覧
 
-### Entry Points
+### エントリーポイント
 
-| File | Purpose |
-|------|---------|
-| `index.cgi` | Main controller. Uses `$sw` state variable to route between screens. |
-| `downdata.cgi` | Exports customer data as tab-delimited file for Excel. |
-| `dummy.cgi` | Validates HTTP_REFERER and blocks unauthorized direct access. |
+| ファイル | 役割 |
+|---------|------|
+| `index.cgi` | メインコントローラー。`$sw` ステート変数で画面ルーティング |
+| `downdata.cgi` | 顧客データをタブ区切りファイルとして Excel 向けにエクスポート |
+| `dummy.cgi` | HTTP_REFERER を検証し、直接アクセスをブロック |
 
-### Core Library Modules (`*_lib.pl`)
+### コアライブラリ（`*_lib.pl`）
 
-| File | Purpose |
-|------|---------|
-| `form_lib.pl` | Parses CGI POST/GET form data into `%form` hash; strips HTML tags |
-| `jcode.pl` | Japanese character encoding conversion (EUC/JIS/SJIS) — third-party |
-| `file_access_lib.pl` | CSV file I/O with `flock`-based locking |
-| `output_sub.pl` | HTML output helpers and page templates |
-| `options_lib.pl` | Builds `<select>` dropdown option lists for forms |
-| `tab_cut_lib.pl` | Splits tab-delimited CSV lines into `@cut_end` array |
-| `debug_lib.pl` | Debug logging to file |
-| `encodesubject_lib.pl` | RFC2047 BASE64 encoding for email subject headers |
-| `seiri_formdata_lib.pl` | Normalizes and cleans form input data |
-| `save_kanri_rireki_lib.pl` | Records management/audit history entries |
+| ファイル | 役割 |
+|---------|------|
+| `form_lib.pl` | CGI POST/GET フォームデータを `%form` ハッシュにパース、HTML タグ除去 |
+| `jcode.pl` | 日本語文字コード変換（EUC/JIS/SJIS）— サードパーティ |
+| `file_access_lib.pl` | `flock` ベースのロック付き CSV ファイル I/O |
+| `output_sub.pl` | HTML 出力ヘルパーとページテンプレート |
+| `options_lib.pl` | フォーム用 `<select>` ドロップダウンのオプションリスト生成 |
+| `tab_cut_lib.pl` | タブ区切り CSV 行を `@cut_end` 配列に分割 |
+| `debug_lib.pl` | ファイルへのデバッグログ出力 |
+| `encodesubject_lib.pl` | メール件名ヘッダーの RFC2047 BASE64 エンコード |
+| `seiri_formdata_lib.pl` | フォーム入力データの正規化・クリーニング |
+| `save_kanri_rireki_lib.pl` | 管理・監査履歴エントリの記録 |
 
-### Feature Modules
+### 機能モジュール
 
-| Feature Area | Files |
-|-------------|-------|
-| Customer search | `search_sub.pl` |
-| Customer edit | `edit_check_sub.pl`, `edit_save_sub.pl`, `edit_rireki_sub.pl` |
-| Customer detail view | `syousai_sub.pl`, `html_syousai0_sub.pl`, `html_syousai1_sub.pl`, `html_syousai2_sub.pl` |
-| Interaction history | `save_rireki_sub.pl`, `html_check_sousarireki_sub.pl` |
-| Email | `edit_sendmail_naiyou_sub.pl`, `edit_sendmail_send_sub.pl`, `html_mail_kakunin_sub.pl`, `html_mail_naiyou_sub.pl` |
-| Admin/settings | `master_edit_info_sub.pl`, `master_check_edit_sub.pl`, `master_setting_change_sub.pl`, `master_switch_sub.pl`, `html_kanrimode_switch_sub.pl` |
+| 機能領域 | ファイル |
+|---------|---------|
+| 顧客検索 | `search_sub.pl` |
+| 顧客編集 | `edit_check_sub.pl`, `edit_save_sub.pl`, `edit_rireki_sub.pl` |
+| 顧客詳細表示 | `syousai_sub.pl`, `html_syousai0_sub.pl`, `html_syousai1_sub.pl`, `html_syousai2_sub.pl` |
+| 対応履歴 | `save_rireki_sub.pl`, `html_check_sousarireki_sub.pl` |
+| メール | `edit_sendmail_naiyou_sub.pl`, `edit_sendmail_send_sub.pl`, `html_mail_kakunin_sub.pl`, `html_mail_naiyou_sub.pl` |
+| 管理・設定 | `master_edit_info_sub.pl`, `master_check_edit_sub.pl`, `master_setting_change_sub.pl`, `master_switch_sub.pl`, `html_kanrimode_switch_sub.pl` |
 
-### File Naming Conventions
+### ファイル命名規則
 
-- `html_*_sub.pl` — HTML rendering/output for a specific screen
-- `edit_*_sub.pl` — Data editing and save operations
-- `master_*_sub.pl` — Administrative / settings functions
-- `*_lib.pl` — Reusable utility libraries
-- `*_rireki*` — History or audit trail related logic
-
----
-
-## Data Model (CSV Schema)
-
-### `kokyaku.csv` — Customer Master (~33 tab-separated fields)
-
-Key fields (positional, tab-delimited, no header row in data):
-- Customer ID, Classification, Company name, Company name (furigana)
-- Department, Division, Postal code, Address
-- Phone, Fax, Email, Website
-- Employee count, Industry category, Region, Status
-
-### `taiou.csv` — Interaction/Correspondence Log (~6-7 fields)
-
-- Management ID, Customer ID, Customer name
-- Manager name, Interaction type, Date/time, Notes
-
-### `sousa_rireki.csv` — Operation Audit Trail
-
-Tracks create/update/delete operations on customer records.
-
-**Important**: All data files use tab (`\t`) as delimiter, not commas. Backups are written automatically to `*.bak` files before any save operation.
+- `html_*_sub.pl` — 特定画面の HTML レンダリング・出力
+- `edit_*_sub.pl` — データ編集・保存処理
+- `master_*_sub.pl` — 管理・設定機能
+- `*_lib.pl` — 再利用可能なユーティリティライブラリ
+- `*_rireki*` — 履歴・監査ログ関連ロジック
 
 ---
 
-## Architecture Patterns
+## データモデル（CSV スキーマ）
 
-### Request Routing
+### `kokyaku.csv` — 顧客マスター（約33フィールド、タブ区切り）
 
-`index.cgi` uses a `$sw` (switch) variable as a state machine. Each state value maps to a screen or action:
+主要フィールド（位置指定、タブ区切り、データ行にヘッダーなし）:
+- 顧客ID、分類、会社名、会社名（ふりがな）
+- 部署、部門、郵便番号、住所
+- 電話、FAX、メール、Web サイト
+- 従業員数、業種カテゴリ、地域、ステータス
+
+### `taiou.csv` — 対応・連絡ログ（約6〜7フィールド）
+
+- 管理ID、顧客ID、顧客名
+- 担当者名、対応種別、日時、備考
+
+### `sousa_rireki.csv` — 操作監査ログ
+
+顧客レコードの作成・更新・削除操作を追跡。
+
+**重要**: 全データファイルの区切り文字はカンマではなくタブ（`\t`）。保存操作の前に自動で `*.bak` ファイルにバックアップが書き込まれる。
+
+---
+
+## アーキテクチャパターン
+
+### リクエストルーティング
+
+`index.cgi` は `$sw`（スイッチ）変数をステートマシンとして使用。各ステート値が画面またはアクションに対応:
 
 ```perl
-# Pattern used throughout index.cgi
 if ($sw eq "some_state") {
     require "./some_sub.pl";
     &some_subroutine();
 }
 ```
 
-### Form Handling
+### フォーム処理
 
-Form data is parsed by `form_lib.pl` into the global `%form` hash:
+フォームデータは `form_lib.pl` がグローバルな `%form` ハッシュにパース:
 
 ```perl
 require "./form_lib.pl";
-&form_parse();  # populates %form
-$form{'fieldname'}  # access a field
+&form_parse();       # %form を生成
+$form{'fieldname'}   # フィールドへのアクセス
 ```
 
-### File I/O
+### ファイル I/O
 
-All CSV access goes through `file_access_lib.pl` with file locking:
+全 CSV アクセスはファイルロック付きの `file_access_lib.pl` 経由:
 
 ```perl
 require "./file_access_lib.pl";
-&file_access("<$filename", $error_code);   # read
-&file_access(">$filename", $error_code);   # write (truncate)
+&file_access("<$filename", $error_code);   # 読み込み
+&file_access(">$filename", $error_code);   # 書き込み（上書き）
 ```
 
-### Tab-Delimited Parsing
+### タブ区切りパース
 
-After reading a CSV line, parse fields with `tab_cut_lib.pl`:
+CSV 行読み込み後、`tab_cut_lib.pl` でフィールドをパース:
 
 ```perl
 require "./tab_cut_lib.pl";
-&tab_cut($line);        # populates @cut_end array
-$cut_end[0]             # first field
-$cut_end[1]             # second field, etc.
+&tab_cut($line);   # @cut_end 配列を生成
+$cut_end[0]        # 1番目のフィールド
+$cut_end[1]        # 2番目のフィールド、など
 ```
 
 ---
 
-## Development Conventions
+## 開発規約
 
-### Code Style
+### コードスタイル
 
-- Pure procedural Perl — no `use strict` or `use warnings` in older files
-- All modules are loaded with `require` (not `use`), so they are loaded at runtime
-- Global variables are heavily used — be careful of unintended side effects
-- Japanese variable names and comments are common and expected
-- Subroutines are defined as `sub funcname { ... }` without prototypes
+- 純粋な手続き型 Perl — 古いファイルには `use strict` / `use warnings` なし
+- モジュールは `require`（`use` ではない）で読み込み — ランタイムロード
+- グローバル変数を多用 — 意図しない副作用に注意
+- 日本語の変数名・コメントは一般的で期待される
+- サブルーチンはプロトタイプなしで `sub funcname { ... }` と定義
 
-### Character Encoding
+### 文字コード
 
-- Source files and data use **EUC-JP** encoding
-- `jcode.pl` handles conversion when needed
-- When editing files, preserve the existing encoding — do not save as UTF-8 unless explicitly converting the project
+- ソースファイルとデータは **EUC-JP** エンコード
+- 変換が必要な場合は `jcode.pl` を使用
+- ファイル編集時は既存のエンコードを維持 — プロジェクト全体の変換指示がない限り UTF-8 で保存しないこと
 
-### Security Considerations
+### セキュリティ
 
-- HTML input is sanitized in `form_lib.pl` to prevent XSS
-- Admin mode is password-protected using `crypt()` with salt `"cr"`
-- `dummy.cgi` validates `HTTP_REFERER` for some pages
-- **No CSRF protection** — be aware when adding form-based actions
-- The codebase is from 2002–2005; modern security practices should be applied if deploying publicly
+- `form_lib.pl` で HTML 入力をサニタイズ（XSS 対策）
+- 管理モードはソルト `"cr"` を使った `crypt()` でパスワード保護
+- `dummy.cgi` が一部ページの `HTTP_REFERER` を検証
+- **CSRF 保護なし** — フォームベースのアクション追加時に注意
+- コードは 2002〜2005 年のもの — 公開デプロイ時はモダンなセキュリティ対策を適用すること
 
-### No Build Step
+### ビルドステップなし・テストなし
 
-This is a pure CGI script application — no compilation, no bundler, no transpiler. To deploy:
-1. Copy the entire `src/` directory contents to a CGI-enabled web directory
-2. Set execute permissions on `*.cgi` files (`chmod 755`)
-3. Ensure the web server user has write access to `*.csv` and `*.bak` files
+- 純粋な CGI スクリプト — コンパイル・バンドラー・トランスパイラなし
+- **自動テストスイートなし** — 全検証は手動（Web サーバー環境で CGI スクリプトを実行して確認）
+- デプロイ: `src/` 全体を CGI 有効な Web ディレクトリにコピー → `*.cgi` に実行権限（`chmod 755`）→ `*.csv` / `*.bak` への書き込み権限を付与
 
----
+### 設定ファイル（`config.dat`）
 
-## No Testing Infrastructure
-
-There is **no automated test suite**. All verification is manual:
-
-- No test files or test directories exist
-- No testing framework is configured
-- When making changes, test by running the CGI scripts in a web server environment
-
-If adding tests, consider using `Test::More` (standard Perl testing) with mock CGI environments.
+Perl シリアライズのバイナリファイル。文字コード設定・ページネーション・Sendmail/SMTP 設定・管理者パスワード（crypt ハッシュ）を保持。**テキストファイルとして直接編集しないこと。** 管理 UI 経由、または `Storable` を使った Perl スクリプトで変更する。
 
 ---
 
-## Configuration
+## AIアシスタント向け注意事項
 
-`config.dat` is a Perl serialized binary file. It stores:
-- Character encoding preference
-- Pagination settings (items per page)
-- Sendmail/SMTP configuration
-- Admin password (crypt-hashed)
-
-**Do not edit `config.dat` directly as a text file.** Modify it through the admin UI or by writing a Perl script that uses `Storable` or similar to deserialize/reserialize.
-
----
-
-## Key Workflows
-
-### Adding a New Screen
-
-1. Create `html_newscreen_sub.pl` for HTML output
-2. Create `newscreen_sub.pl` for business logic (if needed)
-3. Add a new `$sw` state handler in `index.cgi`
-4. Add form links pointing to the new `$sw` value
-
-### Modifying Customer Fields
-
-1. Update `kokyaku.csv` schema (add/remove tab-delimited columns)
-2. Update `tab_cut_lib.pl` or the calling code to reference new column indices
-3. Update all `html_syousai*.pl` and `edit_*.pl` files that render/save this data
-4. Update `options_lib.pl` if any dropdowns are affected
-
-### Adding Email Functionality
-
-1. Business logic goes in `edit_sendmail_*.pl`
-2. Email subjects must be RFC2047 encoded using `encodesubject_lib.pl`
-3. Use the system's `sendmail` binary (path may be configured in `config.dat`)
-
----
-
-## External Integrations
-
-- **MapFan Web API**: Optional address/location lookup (referenced in documentation)
-- **Microsoft Excel**: Data export via `downdata.cgi` produces tab-delimited files readable by Excel
-- **Sendmail/SMTP**: Email sending through system MTA
-
----
-
-## Important Notes for AI Assistants
-
-1. **Repository layout** — source is in `src/`, docs in `docs/`. When editing or creating files, place them in the correct directory
-2. **Japanese content is expected** — do not replace Japanese strings with English unless the user explicitly asks
-3. **EUC-JP encoding** — be careful when modifying files that contain Japanese characters
-4. **No tests exist** — do not assume correctness without manual verification
-5. **Global state** — modifying shared variables (e.g., `%form`, `@cut_end`) affects the whole request
-6. **File locking is critical** — always use `file_access_lib.pl` for CSV I/O; direct file access bypasses locking and risks data corruption
-7. **Backup files** — `*.bak` files are auto-generated and gitignored; do not commit them
-8. **CGI environment** — code runs under a web server; `STDIN`, `STDOUT`, and environment variables like `QUERY_STRING` are the I/O channels
-9. **Old Perl idioms** — the codebase uses pre-modern Perl patterns; prefer consistency with existing style over modernization unless asked
-10. **`require` paths** — all `*.pl` files are flat in `src/`; do not move them into subdirectories without updating all `require` calls in `index.cgi`, `downdata.cgi`, `dummy.cgi`, and any other modules that load them
-11. **セッション記録** — 重要な実装・決定事項は末尾の「セッション記録」セクションに随時追記すること。ユーザーから「CLAUDE.mdに記録して」と言われたら、以下の形式で追記する:
+1. **配置場所** — ソースは `src/`、ドキュメントは `docs/`。ファイル作成・編集時は正しいディレクトリに配置すること
+2. **日本語コンテンツはそのまま** — ユーザーが明示的に求めない限り、日本語文字列を英語に置き換えないこと
+3. **EUC-JP エンコード** — 日本語文字を含むファイルの変更時は注意
+4. **グローバル状態** — 共有変数（`%form`、`@cut_end` など）の変更はリクエスト全体に影響する
+5. **ファイルロック必須** — CSV I/O は必ず `file_access_lib.pl` を使用。直接ファイルアクセスはロックをバイパスしてデータ破損のリスクがある
+6. **バックアップファイル** — `*.bak` は自動生成・gitignore 済み。コミットしないこと
+7. **CGI 環境** — コードは Web サーバー下で動作。`STDIN`、`STDOUT`、`QUERY_STRING` 等の環境変数が I/O チャネル
+8. **旧 Perl イディオム** — 現代化を求められない限り、既存スタイルとの一貫性を優先すること
+9. **`require` パス** — 全 `*.pl` は `src/` 直下にフラット。`index.cgi` 等の `require` 呼び出しを全て更新せずにサブディレクトリへ移動しないこと
+10. **セッション記録** — 重要な実装・決定事項は末尾の「セッション記録」セクションに随時追記すること。ユーザーから「CLAUDE.mdに記録して」と言われたら、以下の形式で追記する:
     ```
     ### YYYY-MM-DD セッション
     - 実施内容: ...
@@ -289,3 +227,8 @@ If adding tests, consider using `Test::More` (standard Perl testing) with mock C
   - kokyaku.csv / taiou.csv → SQLite への移行スクリプトも実装
   - 開発: `npm run dev`、本番: `npm run build && npm start`
 - 関連ファイル: `app/src/server/`, `app/src/client/`, `app/migrate/csv-to-sqlite.ts`, `app/src/server/db/schema.ts`
+
+### 2026-03-17 セッション
+- 実施内容: CLAUDE.md を日本語化・整理。ワークフロー手順を `.claude/commands/` にスラッシュコマンドとして分離
+- 技術的決定: CLAUDE.md はコンテキスト情報のみ残し、定型作業手順は `.claude/commands/` に移動
+- 関連ファイル: `CLAUDE.md`, `.claude/commands/add-screen.md`, `.claude/commands/modify-fields.md`, `.claude/commands/add-email.md`
