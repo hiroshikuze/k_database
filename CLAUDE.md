@@ -268,3 +268,24 @@ If adding tests, consider using `Test::More` (standard Perl testing) with mock C
 8. **CGI environment** — code runs under a web server; `STDIN`, `STDOUT`, and environment variables like `QUERY_STRING` are the I/O channels
 9. **Old Perl idioms** — the codebase uses pre-modern Perl patterns; prefer consistency with existing style over modernization unless asked
 10. **`require` paths** — all `*.pl` files are flat in `src/`; do not move them into subdirectories without updating all `require` calls in `index.cgi`, `downdata.cgi`, `dummy.cgi`, and any other modules that load them
+11. **セッション記録** — 重要な実装・決定事項は末尾の「セッション記録」セクションに随時追記すること。ユーザーから「CLAUDE.mdに記録して」と言われたら、以下の形式で追記する:
+    ```
+    ### YYYY-MM-DD セッション
+    - 実施内容: ...
+    - 技術的決定: ...
+    - 関連ファイル: ...
+    ```
+
+---
+
+## セッション記録
+
+### 2026-03-17 セッション
+- 実施内容: Perlベース旧CRMをTypeScript+SQLite構成でフルリビルド（`app/` ディレクトリ以下）
+- 技術的決定:
+  - バックエンド: **Hono + TypeScript**（REST API、ポート3000）
+  - フロントエンド: **React + Vite**（SPA、ポート5173）
+  - DB: **Drizzle ORM + SQLite**（WALモード）、バリデーションにZod使用
+  - kokyaku.csv / taiou.csv → SQLite への移行スクリプトも実装
+  - 開発: `npm run dev`、本番: `npm run build && npm start`
+- 関連ファイル: `app/src/server/`, `app/src/client/`, `app/migrate/csv-to-sqlite.ts`, `app/src/server/db/schema.ts`
