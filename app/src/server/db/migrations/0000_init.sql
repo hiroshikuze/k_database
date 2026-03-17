@@ -1,0 +1,61 @@
+CREATE TABLE IF NOT EXISTS `customers` (
+  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+  `legacy_id` integer UNIQUE,
+  `classification` text DEFAULT '',
+  `company_name` text NOT NULL DEFAULT '',
+  `company_name_kana` text DEFAULT '',
+  `department` text DEFAULT '',
+  `department_kana` text DEFAULT '',
+  `branch` text DEFAULT '',
+  `branch_kana` text DEFAULT '',
+  `branch_department` text DEFAULT '',
+  `contact_name` text DEFAULT '',
+  `contact_name_kana` text DEFAULT '',
+  `postal_code` text DEFAULT '',
+  `address` text DEFAULT '',
+  `postal_code2` text DEFAULT '',
+  `address2` text DEFAULT '',
+  `tel` text DEFAULT '',
+  `fax` text DEFAULT '',
+  `email` text DEFAULT '',
+  `established_month` text DEFAULT '',
+  `established_year` text DEFAULT '',
+  `business_type` text DEFAULT '',
+  `employee_count` text DEFAULT '',
+  `region` text DEFAULT '',
+  `industry` text DEFAULT '',
+  `main_products` text DEFAULT '',
+  `private_name` text DEFAULT '',
+  `website` text DEFAULT '',
+  `manager` text DEFAULT '',
+  `status` text DEFAULT '',
+  `pc_type` text DEFAULT '',
+  `lan_env` text DEFAULT '',
+  `env_contact_name` text DEFAULT '',
+  `note` text DEFAULT '',
+  `display_flag` integer DEFAULT true,
+  `main_customer` integer DEFAULT false,
+  `created_at` text DEFAULT (datetime('now', 'localtime')),
+  `updated_at` text DEFAULT (datetime('now', 'localtime'))
+);
+
+CREATE TABLE IF NOT EXISTS `history` (
+  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+  `legacy_id` integer,
+  `customer_id` integer NOT NULL REFERENCES `customers`(`id`) ON DELETE CASCADE,
+  `customer_name` text DEFAULT '',
+  `manager_name` text DEFAULT '',
+  `interaction_type` text DEFAULT '',
+  `occurred_at` text DEFAULT '',
+  `content` text DEFAULT '',
+  `created_at` text DEFAULT (datetime('now', 'localtime'))
+);
+
+CREATE TABLE IF NOT EXISTS `audit_log` (
+  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+  `operation` text NOT NULL,
+  `target_id` integer,
+  `detail` text DEFAULT '',
+  `operator_name` text DEFAULT '',
+  `created_at` text DEFAULT (datetime('now', 'localtime'))
+);

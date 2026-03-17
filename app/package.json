@@ -1,0 +1,39 @@
+{
+  "name": "k_database-app",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "tsx watch src/server/index.ts",
+    "dev:client": "vite",
+    "build": "tsc && vite build",
+    "start": "node dist/server/index.js",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx src/server/db/migrate.ts",
+    "migrate:csv": "tsx migrate/csv-to-sqlite.ts"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.13.7",
+    "@hono/zod-validator": "^0.4.3",
+    "better-sqlite3": "^11.8.1",
+    "drizzle-orm": "^0.40.0",
+    "hono": "^4.7.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.28.2",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/node": "^22.13.10",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.2",
+    "drizzle-kit": "^0.30.4",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2",
+    "vite": "^6.2.1"
+  }
+}
